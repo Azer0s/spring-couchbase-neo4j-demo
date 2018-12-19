@@ -2,12 +2,12 @@ package at.simulevski.couchbaseneo4jdemo.neo4j.persistence;
 
 import at.simulevski.couchbaseneo4jdemo.neo4j.domain.NeoItem;
 import org.springframework.data.couchbase.core.query.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface NeoItemRepository extends CrudRepository<NeoItem, Long> {
+public interface NeoItemRepository extends Neo4jRepository<NeoItem, Long> {
 
     void deleteByCbId(String cbId);
     NeoItem findByCbId(String id);

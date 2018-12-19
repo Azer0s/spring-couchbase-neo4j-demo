@@ -11,6 +11,8 @@ import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +20,7 @@ import javax.validation.constraints.NotNull;
 
 @Document
 @Data
-public class Item {
+public class CbItem {
     @Id
     @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
     private String id;
@@ -29,4 +31,6 @@ public class Item {
 
     @Field
     private String description;
+
+    private List<CbUser> users = new ArrayList<>();
 }

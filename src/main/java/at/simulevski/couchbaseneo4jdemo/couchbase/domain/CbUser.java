@@ -17,7 +17,7 @@ import java.util.List;
 
 @Document
 @Data
-public class User {
+public class CbUser {
     @Id
     @GeneratedValue(strategy = GenerationStrategy.UNIQUE)
     private String id;
@@ -26,5 +26,5 @@ public class User {
     @Field
     private String username;
 
-    private List<Item> items = new ArrayList<>();
+    private List<CbItem> items = new ArrayList<>();
 }

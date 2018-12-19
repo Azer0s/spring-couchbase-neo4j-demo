@@ -1,6 +1,6 @@
 package at.simulevski.couchbaseneo4jdemo.presentation;
 
-import at.simulevski.couchbaseneo4jdemo.couchbase.domain.User;
+import at.simulevski.couchbaseneo4jdemo.couchbase.domain.CbUser;
 import at.simulevski.couchbaseneo4jdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,7 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/user/{name}")
-    public @ResponseBody User getUser(@PathVariable("name") String name){
+    public @ResponseBody
+    CbUser getUser(@PathVariable("name") String name){
         return userService.getUser(name);
     }
 

@@ -1,11 +1,11 @@
 package at.simulevski.couchbaseneo4jdemo.neo4j.configuration;
 
-import lombok.extern.slf4j.Slf4j;
 import org.neo4j.ogm.session.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.transaction.Neo4jTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
@@ -25,6 +25,11 @@ public class Neo4jConfiguration {
     @Bean
     public SessionFactory sessionFactory() {
         return new SessionFactory(configuration(), "at.simulevski.couchbaseneo4jdemo.neo4j.domain");
+    }
+
+    @Bean
+    public Neo4jTransactionManager transactionManager() {
+        return new Neo4jTransactionManager(sessionFactory());
     }
 
     @Bean

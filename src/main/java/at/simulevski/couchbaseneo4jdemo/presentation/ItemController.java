@@ -1,6 +1,6 @@
 package at.simulevski.couchbaseneo4jdemo.presentation;
 
-import at.simulevski.couchbaseneo4jdemo.couchbase.domain.Item;
+import at.simulevski.couchbaseneo4jdemo.couchbase.domain.CbItem;
 import at.simulevski.couchbaseneo4jdemo.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,7 +21,8 @@ public class ItemController {
     }
 
     @GetMapping("/item/{name}")
-    public @ResponseBody Item getItem(@PathVariable("name") String name){
+    public @ResponseBody
+    CbItem getItem(@PathVariable("name") String name){
         return itemService.getItem(name);
     }
 

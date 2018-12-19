@@ -6,27 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 
 @Data
-@NodeEntity
-public class NeoUser {
+@RelationshipEntity(type = "OWNS")
+class Ownership {
     @Id
     @GeneratedValue
     Long id;
 
-    @Index(unique = true)
-    private String cbId;
+    @StartNode
+    private NeoUser user;
 
-    @Relationship(type = "OWNS")
-    private List<NeoItem> items = new ArrayList<>();
-
-    public void addItem(NeoItem item){
-        items.add(item);
-    }
+    @EndNode
+    private NeoItem item;
 }

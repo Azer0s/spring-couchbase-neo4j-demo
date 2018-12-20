@@ -29,4 +29,8 @@ public class NeoUser {
     public void addItem(NeoItem item){
         items.add(item);
     }
+
+    public void removeItem(NeoItem item) {
+        items.remove(item);
+    }
 }

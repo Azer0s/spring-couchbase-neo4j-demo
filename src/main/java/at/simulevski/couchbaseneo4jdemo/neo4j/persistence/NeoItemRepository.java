@@ -4,14 +4,13 @@ import at.simulevski.couchbaseneo4jdemo.neo4j.domain.NeoItem;
 import org.springframework.data.couchbase.core.query.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface NeoItemRepository extends Neo4jRepository<NeoItem, Long> {
-
-    void deleteByCbId(String cbId);
+    @Query("MATCH (i:NeoItem{cbId:{cbId}}) DETACH DELETE i")
+    Iterable<Long> deleteByCbId(@Param("cbId") String cbId);
     NeoItem findByCbId(String id);
-
-    @Query("MATCH (u:NeoUser{cbId:{userId}})-[:OWNS]->(i:NeoItem) RETURN i")
-    List<NeoItem> getItemsByCbId(@Param("userId") String id);
 }

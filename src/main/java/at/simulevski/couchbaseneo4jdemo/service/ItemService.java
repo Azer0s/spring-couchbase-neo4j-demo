@@ -9,6 +9,7 @@ import at.simulevski.couchbaseneo4jdemo.neo4j.persistence.NeoItemRepository;
 import at.simulevski.couchbaseneo4jdemo.neo4j.persistence.NeoUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -17,17 +18,12 @@ import java.util.ArrayList;
 public class ItemService {
 
     @Autowired
-    private CbUserRepository cbUserRepository;
-
-    @Autowired
     private CbItemRepository cbItemRepository;
-
-    @Autowired
-    private NeoUserRepository neoUserRepository;
 
     @Autowired
     private NeoItemRepository neoItemRepository;
 
+    @Transactional
     public boolean createItem(String name, String description) {
         if (cbItemRepository.findByName(name) != null){
             return false;
@@ -45,22 +41,12 @@ public class ItemService {
         return true;
     }
 
+    @Transactional
     public CbItem getItem(String name) {
-        var item = cbItemRepository.findByName(name);
-        if (item == null){
-            return null;
-        }
-
-        var neoUsers = neoUserRepository.getUsersByCbId(item.getId());
-        var users = new ArrayList<CbUser>();
-        for (var neoUser : neoUsers) {
-            users.add(cbUserRepository.findById(neoUser.getCbId()).orElse(null));
-        }
-
-        item.setUsers(users);
-        return item;
+        return cbItemRepository.findByName(name);
     }
 
+    @Transactional
     public boolean deleteItem(String name) {
         var item = cbItemRepository.findByName(name);
         if (item == null){

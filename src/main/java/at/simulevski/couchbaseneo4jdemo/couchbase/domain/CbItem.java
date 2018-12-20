@@ -31,6 +31,4 @@ public class CbItem {
 
     @Field
     private String description;
-
-    private List<CbUser> users = new ArrayList<>();
 }

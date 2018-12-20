@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.neo4j.ogm.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.neo4j.ogm.annotation.GeneratedValue;
+import org.neo4j.ogm.annotation.Id;
+import org.neo4j.ogm.annotation.Index;
+import org.neo4j.ogm.annotation.NodeEntity;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +22,4 @@ public class NeoItem {
 
     @Index(unique = true)
     private String cbId;
-
-    @Relationship(type = "OWNS", direction = Relationship.INCOMING)
-    private List<Ownership> ownerships = new ArrayList<>();
 }

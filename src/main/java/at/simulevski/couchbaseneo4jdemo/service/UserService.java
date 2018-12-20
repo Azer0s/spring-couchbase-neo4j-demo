@@ -9,9 +9,11 @@ import at.simulevski.couchbaseneo4jdemo.neo4j.persistence.NeoItemRepository;
 import at.simulevski.couchbaseneo4jdemo.neo4j.persistence.NeoUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("Duplicates")
 @Service
 public class UserService {
 
@@ -24,9 +26,7 @@ public class UserService {
     @Autowired
     private NeoUserRepository neoUserRepository;
 
-    @Autowired
-    private NeoItemRepository neoItemRepository;
-
+    @Transactional
     public boolean createUser(String username) {
         if (cbUserRepository.findByUsername(username) != null){
             return false;
@@ -42,6 +42,7 @@ public class UserService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public CbUser getUser(String name) {
         var user = cbUserRepository.findByUsername(name);
         if (user == null){
@@ -49,8 +50,6 @@ public class UserService {
         }
 
         var neoUser = neoUserRepository.findByCbId(user.getId());
-        //var neoItems = neoItemRepository.getItemsByCbId(neoUser.getCbId());
-
         var items = new ArrayList<CbItem>();
         for (var neoItem : neoUser.getItems()) {
             items.add(cbItemRepository.findById(neoItem.getCbId()).orElse(null));
@@ -61,6 +60,7 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public boolean deleteUser(String name) {
         var user = cbUserRepository.findByUsername(name);
         if (user == null){
@@ -71,25 +71,5 @@ public class UserService {
         neoUserRepository.deleteByCbId(user.getId());
 
         return true;
-    }
-
-    public boolean createItemLink(String userName, String itemName) {
-        var user = cbUserRepository.findByUsername(userName);
-        var item = cbItemRepository.findByName(itemName);
-        if (user == null || item == null){
-            return false;
-        }
-
-        var neoUser = neoUserRepository.findByCbId(user.getId());
-        var neoItem = neoItemRepository.findByCbId(item.getId());
-
-        neoUser.addItem(neoItem);
-        neoUserRepository.save(neoUser);
-
-        return true;
-    }
-
-    public boolean deleteItemLink(String userId, String itemId) {
-        return false;
     }
 }

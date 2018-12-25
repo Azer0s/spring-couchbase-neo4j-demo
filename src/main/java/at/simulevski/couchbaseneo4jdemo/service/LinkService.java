@@ -55,6 +55,6 @@ public class LinkService {
         neoUser.removeItem(neoItem);
         neoUserRepository.save(neoUser);
 
-        return false;
+        return true;
     }
 }
